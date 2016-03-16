@@ -1,0 +1,20 @@
+<project name="ExceptionHandler-war setup jars" default="setupJars">
+	<target name="setupJars">
+		<delete dir="${basedir}/WebContent/WEB-INF/lib"/>
+		<mkdir dir="${basedir}/WebContent/WEB-INF/lib"/>
+		
+		<exec executable="mvn.bat">
+			<arg value="-DincludeScope=runtime"/>
+			<arg value="-DoutputDirectory=${basedir}/WebContent/WEB-INF/lib"/>
+			<arg value="dependency:copy-dependencies"/>
+		</exec>
+
+		<delete dir="${basedir}/test_libs" failonerror="false"/>
+		<mkdir dir="${basedir}/test_libs"/>
+		<exec executable="mvn.bat">
+			<arg value="-DexcludeScope=runtime"/>
+			<arg value="-DoutputDirectory=${basedir}/test_libs"/>
+			<arg value="dependency:copy-dependencies"/>
+		</exec>
+	</target>
+</project>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:mvc="http://www.springframework.org/schema/mvc" xsi:schemaLocation="http://www.springframework.org/schema/beans
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd 
+       					   http://www.springframework.org/schema/context 
+       					   http://www.springframework.org/schema/context/spring-context.xsd 
+       					   http://www.springframework.org/schema/jdbc 
+       					   http://www.springframework.org/schema/jdbc/spring-jdbc.xsd 
+       					   http://www.springframework.org/schema/aop 
+       					   http://www.springframework.org/schema/aop/spring-aop-2.0.xsd 
+       					   http://www.springframework.org/schema/tx
+						   http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+						   http://www.springframework.org/schema/jee 
+       					   http://www.springframework.org/schema/jee/spring-jee-3.0.xsd 
+       					   http://www.springframework.org/schema/util 
+       					   http://www.springframework.org/schema/util/spring-util.xsd
+       					   http://www.springframework.org/schema/mvc 
+       					   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<context:annotation-config/>
+	<context:component-scan base-package="com.example"></context:component-scan>
+	<mvc:annotation-driven/>
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.view.json.exception.JsonExceptionResolver">
+		 <property name="exceptionView">
+            <value>jsonView</value>
+        </property>
+        <property name="exceptionHandler">
+            <list>
+                <ref bean="exceptionMessageExceptionHandler"/>
+            </list>
+        </property>
+     </bean>
+     <bean id="exceptionMessageExceptionHandler" class="com.example.exception.CustomExceptionHandler"></bean>   
+     <mvc:interceptors>
+    	<bean class="com.example.interceptor.SpringInterceptor"/>
+	</mvc:interceptors>	
+	 <jee:jndi-lookup id="env" jndi-name="J2EE_SYS" default-value="local"/>
+	 <bean id="props" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:/configuration.xml</value>
+            </list>
+        </property>
+    </bean>
+    <context:property-placeholder properties-ref="props"
+                                  ignore-unresolvable="true" ignore-resource-not-found="true"/>
+</beans>
