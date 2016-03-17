@@ -1,4 +1,4 @@
-# Spring_Security_Interceptor_Exception_Example
+# Spring_Security_Interceptor_ExceptionResolver_Example
 Spring 3.1 MVC based security-interceptor-exception handler example
 
 
